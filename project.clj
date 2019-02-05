@@ -68,8 +68,9 @@
         :init-ns mm.scylla.graph.repl
         :prompt ~get-prompt
         :init ~(println (get-banner))
-        :host "0.0.0.0"
-        :port 8822}}
+        ; :host "0.0.0.0"
+        ; :port 8821
+        }}
     :dev {
       :source-paths ["dev-resources/src"]
       ; :main mm.scylla.graph.main
@@ -144,4 +145,8 @@
         ["ubercompile"]
         ["lint"]
         ["test"]
-        ["uberjar"]]})
+        ["uberjar"]]
+    "docker-build"
+      ["shell" "docker" "build"
+       "-t" "oubiwann/scylla-graph"
+       "./resources/docker/"]})

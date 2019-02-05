@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  scylladb:
+    image: scylladb/scylla
+    container_name: mm-scylla-graph
+    volumes:
+      - ${PWD}/scylla:/var/lib/scylla
+    ports:
+      - 7000:7000
+      - 7001:7001
+      - 9042:9042
+      - 9160:9160
+      - 10000:10000
+    networks:
+      mm-scylla-net:
+        # hostname assumes virtual network interface:
+        # $ sudo ifconfig en0 inet 172.27.27.2 netmask 255.255.255.224 alias
+        ipv4_address: 172.27.27.2
+  clj-janus:
+    image: oubiwann/scylla-graph
+    depends_on:
+      - scylladb
+    ports:
+      - 8821:8821
+
+volumes:
+  data:
+    driver: local
+  logs:
+    driver: local
+
+networks:
+  mm-scylla-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        # hostname assumes virtual network interface:
+        # $ sudo ifconfig en0 inet 172.27.27.2 netmask 255.255.255.224 alias
+        - subnet: 172.27.27.0/27
