@@ -1,6 +1,11 @@
 janus:
   storage:
     backend: cassandra
+    # hostname assumes virtual network interface:
+    # $ sudo ifconfig en0 inet 172.27.27.2 netmask 255.255.255.224 alias
+    # and docket network:
+    hostname: 172.27.27.2
+    port: 9160
     directory: data/graphdb/janus
 logging:
   level: :debug

@@ -10,8 +10,6 @@
                          JanusGraphFactory))
   (:refer-clojure :exclude [drop]))
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;   Utility/Support Functions   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -69,6 +67,8 @@
       ;(.set builder "gremlin.graph" "org.janusgraph.core.JanusGraphFactory")
       ;(.set builder "graph.graphname" "game")
       (.set builder "storage.backend" (:storage-backend opts))
+      (.set builder "storage.hostname" (:storage-hostname opts))
+      (.set builder "storage.port" (:storage-port opts))
       (.set builder "storage.directory" (:storage-directory opts))
       (.open builder))))
 

@@ -29,6 +29,14 @@
   [system]
   (get-in (get-cfg system) [:janus :storage :backend]))
 
+(defn storage-hostname
+  [system]
+  (get-in (get-cfg system) [:janus :storage :hostname]))
+
+(defn storage-port
+  [system]
+  (get-in (get-cfg system) [:janus :storage :port]))
+
 (defn storage-directory
   [system]
   (get-in (get-cfg system) [:janus :storage :directory]))
@@ -36,6 +44,8 @@
 (defn storage-spec
   [system]
   {:storage-backend (storage-backend system)
+   :storage-hostname (storage-hostname system)
+   :storage-port (storage-port system)
    :storage-directory (storage-directory system)})
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
