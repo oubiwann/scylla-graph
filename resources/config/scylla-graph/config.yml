@@ -1,0 +1,9 @@
+janus:
+  storage:
+    backend: cassandra
+    directory: data/graphdb/janus
+logging:
+  level: :debug
+  nss:
+    - mm.scylla.graph
+  color: true
