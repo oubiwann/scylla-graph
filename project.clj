@@ -19,14 +19,47 @@
   :license {
     :name "Apache License Version 2.0"
     :url "https://www.apache.org/licenses/LICENSE-2.0"}
+  :exclusions [
+    [com.google.guava/guava]
+    [com.googlecode.json-simple/json-simple]
+    [commons-codec]
+    [commons-lang]
+    [org.apache.tinkerpop/gremlin-core]
+    [org.apache.tinkerpop/gremlin-shaded]
+    [org.clojure/clojure]
+    [org.clojure/core.rrb-vector]
+    [org.clojure/tools.reader]
+    [org.flatland/ordered]
+    [org.javassist/javassist]
+    [org.slf4j/slf4j-api]
+    [org.xerial.snappy/snappy-java]
+    [org.yaml/snakeyaml]
+    [potemkin]]
   :dependencies [
+    ;; JDK 11 Fixes
+    [org.clojure/core.rrb-vector "0.0.13"]
+    [org.flatland/ordered "1.5.7"]
+    ;; Jarfile Conflict Fixes
+    [com.google.guava/guava "25.1-jre"]
+    [com.googlecode.json-simple/json-simple "1.1.1"]
+    [commons-codec/commons-codec "1.11"]
+    [commons-lang/commons-lang "2.6"]
+    [org.apache.tinkerpop/gremlin-core  "3.4.0"]
+    [org.apache.tinkerpop/gremlin-shaded "3.4.0"]
+    [org.clojure/tools.reader "1.3.2"]
+    [org.slf4j/slf4j-api "1.7.25"]
+    [org.xerial.snappy/snappy-java "1.1.7.2"]
+    [org.yaml/snakeyaml "1.23"]
+    [potemkin "0.4.5"]
+    ;; Actual Dependencies
+    [clojurewerkz/ogre "3.3.4.0"]
     [clojusc/system-manager "0.3.0"]
     [clojusc/twig "0.4.1"]
     [clojusc/unified-config "0.5.0-SNAPSHOT"]
     [com.stuartsierra/component "0.4.0"]
     [org.apache.tinkerpop/gremlin-server "3.4.0"]
-    [org.janusgraph/janusgraph-cassandra "0.3.1"]
-    [org.clojure/clojure "1.10.0"]]
+    [org.clojure/clojure "1.10.0"]
+    [org.janusgraph/janusgraph-cassandra "0.3.1"]]
   :profiles {
     :ubercompile {
       :aot :all}
@@ -34,16 +67,21 @@
       :repl-options {
         :init-ns mm.scylla.graph.repl
         :prompt ~get-prompt
-        :init ~(println (get-banner))}}
+        :init ~(println (get-banner))
+        :host "0.0.0.0"
+        :port 8822}}
     :dev {
       :source-paths ["dev-resources/src"]
-      :main mm.scylla.graph.main
+      ; :main mm.scylla.graph.main
       :dependencies [
         [clojusc/trifl "0.4.2"]
-        [org.clojure/tools.namespace "0.2.11"]]
+        ; [nrepl "0.6.0"]
+        [org.clojure/tools.namespace "0.2.11"]
+        [org.clojure/tools.nrepl "0.2.13"]]
       :plugins [
         [lein-shell "0.5.0"]
-        [venantius/ultra "0.5.2"]]}
+        ; [nrepl/lein-nrepl "0.3.2"]
+        [oubiwann/venantius-ultra "0.5.4-SNAPSHOT" :exclusions [org.clojure/clojure]]]}
     :lint {
       :plugins [
         [jonase/eastwood "0.3.5"]
@@ -98,7 +136,7 @@
       ["shell" "git" "submodule" "update" "--init" "--recursive"]
     "repl"
       ^{:doc "A custom REPL that overrides the default one"}
-      ["with-profile" "+test,+custom-repl" "repl"]
+      ["with-profile" "+dev,+test,+custom-repl" "repl"]
     "build"
       ^{:doc "Perform build tasks for CI/CD & releases\n\nAdditional aliases:"}
       ["with-profile" "+test" "do"
