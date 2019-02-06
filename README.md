@@ -1,14 +1,31 @@
 # scylla-graph
 
+[![Build Status][travis-badge]][travis]
+[![Clojars Project][clojars-badge]][clojars]
+[![Tag][tag-badge]][tag]
+[![Clojure version][clojure-v]](project.clj)
+
+[![][logo1]][logo-large1] [![][logo2]][logo-large2]
+
 *Example usage of ScyllaDB as a graph database*
 
+#### Contents
 
-## About
+* [About](#about-)
+* [Setup](#setup-)
+   * [Using docker](#using-docker-)
+   * [Using docker-compose](#using-docker-compose-)
+   * [Using Kubernetes](#using-kubernetes-)
+   * [Using Terraform](#using-terraform-)
+* [Connecting](#connecting-)
+* [License](#license-)
+
+## About [&#x219F;](#contents)
 
 TBD
 
 
-## Setup
+## Setup [&#x219F;](#contents)
 
 All of the below instructions assume you have created a virtual NIC on the host
 machine with the IP address of `172.27.27.2`. On a Mac, for instance, this
@@ -31,7 +48,7 @@ graph database capabilities (using Janusgraph). These include:
 **Important**: choose only one!
 
 
-### Using `docker`
+### Using `docker` [&#x219F;](#contents)
 
 Create a docker network:
 ```
@@ -52,7 +69,7 @@ docker run -it \
 ```
 
 
-### Using `docker-compose`
+### Using `docker-compose` [&#x219F;](#contents)
 
 When you use `docker-compose`, the network is created (and later destroyed)
 for you (though you will need to have created the virtual NIC as above).
@@ -63,7 +80,17 @@ $ docker-compose -f resources/docker/compose.yml up
 ```
 
 
-## Connecting
+## Using Kubernetes [&#x219F;](#contents)
+
+TBD
+
+
+## Using Terraform [&#x219F;](#contents)
+
+TBD
+
+
+## Connecting [&#x219F;](#contents)
 
 At this point, you can start up a Clojure REPL and bring up the system:
 
@@ -98,3 +125,27 @@ _|  _|\___|\__,_|_|\__,_|_|  _|\__,_|\__|_| |_| ____/
 2019-02-05T15:17:30.622 [nREPL-worker-2] DEBUG mm.scylla.graph.components.janus:47 - Started JanusGraph component.
 :running
 ```
+
+## License [&#x219F;](#contents)
+
+Copyright © 2017, Clojure-Aided Enrichment Center
+
+Apache License, Version 2.0.
+
+
+<!-- Named page links below: /-->
+
+[travis]: https://travis-ci.org/oubiwann/scylla-graph
+[travis-badge]: https://travis-ci.org/oubiwann/scylla-graph.png?branch=master
+[deps]: http://jarkeeper.com/oubiwann/scylla-graph
+[deps-badge]: http://jarkeeper.com/oubiwann/scylla-graph/status.svg
+[logo1]: resources/images/ScyllaDB.png
+[logo-large1]: resources/images/ScyllaDB.png
+[logo2]: resources/images/Janusgraph.png
+[logo-large2]: resources/images/Janusgraph.png
+[tag-badge]: https://img.shields.io/github/tag/oubiwann/scylla-graph.svg
+[tag]: https://github.com/oubiwann/scylla-graph/tags
+[clojure-v]: https://img.shields.io/badge/clojure-1.10.0-blue.svg
+[jdk-v]: https://img.shields.io/badge/jdk-1.8+-blue.svg
+[clojars]: https://clojars.org/oubiwann/scylla-graph
+[clojars-badge]: https://img.shields.io/clojars/v/oubiwann/scylla-graph.svg
