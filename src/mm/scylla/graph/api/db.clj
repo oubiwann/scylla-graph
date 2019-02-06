@@ -168,7 +168,7 @@
 
 (defn -get-edges
   [this]
-  (into [] (.getEdges this)))
+  (vec (.getEdges this)))
 
 (defn- -get-vertex
   [this ^String uuid]
@@ -176,7 +176,7 @@
 
 (defn -get-vertices
   [this]
-  (into [] (.getVertices this)))
+  (vec (.getVertices this)))
 
 (defn- -graph-name
   [this]
