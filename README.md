@@ -5,7 +5,7 @@
 [![Tag][tag-badge]][tag]
 [![Clojure version][clojure-v]](project.clj)
 
-[![][logo1]][logo-large1] [![][logo2]][logo-large2]
+[![][logo]][logo-large]
 
 *Example usage of ScyllaDB as a graph database*
 
@@ -139,6 +139,8 @@ Apache License, Version 2.0.
 [travis-badge]: https://travis-ci.org/oubiwann/scylla-graph.png?branch=master
 [deps]: http://jarkeeper.com/oubiwann/scylla-graph
 [deps-badge]: http://jarkeeper.com/oubiwann/scylla-graph/status.svg
+[logo]: resources/images/ScyllaDB-Janusgraph.png
+[logo-large]: resources/images/ScyllaDB-Janusgraph.png
 [logo1]: resources/images/ScyllaDB.png
 [logo-large1]: resources/images/ScyllaDB.png
 [logo2]: resources/images/Janusgraph.png
