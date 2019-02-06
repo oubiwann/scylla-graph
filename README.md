@@ -149,5 +149,5 @@ Apache License, Version 2.0.
 [tag]: https://github.com/oubiwann/scylla-graph/tags
 [clojure-v]: https://img.shields.io/badge/clojure-1.10.0-blue.svg
 [jdk-v]: https://img.shields.io/badge/jdk-1.8+-blue.svg
-[clojars]: https://clojars.org/oubiwann/scylla-graph
-[clojars-badge]: https://img.shields.io/clojars/v/oubiwann/scylla-graph.svg
+[clojars]: https://clojars.org/mediamath/scylla-graph
+[clojars-badge]: https://img.shields.io/clojars/v/mediamath/scylla-graph.svg
