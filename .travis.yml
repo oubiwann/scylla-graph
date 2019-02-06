@@ -1,0 +1,19 @@
+language: clojure
+lein: 2.8.3
+# git:
+#   submodules: false
+#   depth: 5
+# before_install:
+#   - resources/scripts/switch-to-https-submodules.sh
+script:
+  - lein build
+jdk:
+  - oraclejdk8
+  - openjdk8
+  - openjdk11
+env:
+  - LEIN_SNAPSHOTS_IN_RELEASE=true
+notifications:
+  email:
+      - oubiwann@gmail.com
+
