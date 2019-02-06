@@ -10,7 +10,7 @@
        ns
        "\u001B[35m]\u001B[33m =>\u001B[m "))
 
-(defproject MediaMath/scylla-graph "0.1.0-SNAPSHOT"
+(defproject mediamath/scylla-graph "0.1.0-SNAPSHOT"
   :description "Example usage of ScyllaDB as a graph database"
   :url "https://github.com/oubiwann/scylla-graph"
   :scm {
