@@ -48,6 +48,18 @@
    :storage-port (storage-port system)
    :storage-directory (storage-directory system)})
 
+(defn httpd-host
+  [system]
+  (get-in (get-cfg system) [:httpd :host]))
+
+(defn httpd-port
+  [system]
+  (get-in (get-cfg system) [:httpd :port]))
+
+(defn httpd-index-dirs
+  [system]
+  (get-in (get-cfg system) [:httpd :index-dirs]))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;   Component Lifecycle Implementation   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

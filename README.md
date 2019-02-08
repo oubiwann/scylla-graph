@@ -3,6 +3,7 @@
 [![Build Status][travis-badge]][travis]
 [![Clojars Project][clojars-badge]][clojars]
 [![Tag][tag-badge]][tag]
+[![JDK version][jdk-v]](.travis.yml)
 [![Clojure version][clojure-v]](project.clj)
 
 [![][logo]][logo-large]
@@ -55,7 +56,7 @@ Create a docker network:
 $ docker network create --subnet=172.27.27.0/27 scylla-net
 ```
 
-Port-forward to the network:
+Run a single node, port-forwarding to the Docker network we created above:
 ```
 docker run -it \
   --net scylla-net \
@@ -72,8 +73,7 @@ docker run -it \
 ### Using `docker-compose` [&#x219F;](#contents)
 
 When you use `docker-compose`, the network is created (and later destroyed)
-for you (though you will need to have created the virtual NIC as above).
-Additionally, the app's remote REPL will be started for you as well:
+for you (though you will need to have created the virtual NIC as above):
 
 ```
 $ docker-compose -f resources/docker/compose.yml up
@@ -128,7 +128,9 @@ _|  _|\___|\__,_|_|\__,_|_|  _|\__,_|\__|_| |_| ____/
 
 ## License [&#x219F;](#contents)
 
-Copyright © 2017, Clojure-Aided Enrichment Center
+Copyright © 2019, MediaMath, Inc.
+
+Copyright © 2019, Duncan McGreggor
 
 Apache License, Version 2.0.
 

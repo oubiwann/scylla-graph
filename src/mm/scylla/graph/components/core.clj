@@ -2,6 +2,7 @@
   (:require
     [com.stuartsierra.component :as component]
     [mm.scylla.graph.components.config :as config]
+    [mm.scylla.graph.components.httpd :as httpd]
     [mm.scylla.graph.components.janus :as janus]
     [mm.scylla.graph.components.logging :as logging]
     [mm.scylla.graph.config :as config-lib]))
@@ -21,8 +22,13 @@
 
 (def janus
   {:janus (component/using
-            (janus/create-component)
-            [:config :logging])})
+           (janus/create-component)
+           [:config :logging])})
+
+(def http-server
+  {:httpd (component/using
+           (httpd/create-component)
+           [:config :logging :janus])})
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;   Component Initializations   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -43,12 +49,22 @@
              log
              janus))))
 
+(defn initialize-with-web
+  []
+  (let [cfg-data (config-lib/data)]
+    (component/map->SystemMap
+      (merge (cfg cfg-data)
+             log
+             janus
+             http-server))))
+
 (def init-lookup
   {:basic #'initialize-bare-bones
-   :backend #'initialize-with-backend})
+   :backend #'initialize-with-backend
+   :web #'initialize-with-web})
 
 (defn init
   ([]
-    (init :backend))
+    (init :web))
   ([mode]
     ((mode init-lookup))))

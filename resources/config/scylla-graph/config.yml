@@ -1,3 +1,8 @@
+httpd:
+  host: 0.0.0.0
+  port: 5099
+  index-dirs:
+    - assets
 janus:
   storage:
     backend: cassandra
@@ -5,6 +10,8 @@ janus:
     # $ sudo ifconfig en0 inet 172.27.27.2 netmask 255.255.255.224 alias
     # and docket network:
     hostname: 172.27.27.2
+    # hostname: 0.0.0.0
+    # hostname: 127.0.0.1
     port: 9160
     directory: data/graphdb/janus
 logging:
