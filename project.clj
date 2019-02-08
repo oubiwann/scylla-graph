@@ -37,7 +37,7 @@
     [potemkin]]
   :dependencies [
     ;; JDK 11 Fixes
-    [org.clojure/core.rrb-vector "0.0.13"]
+    [org.clojure/core.rrb-vector "0.0.14"]
     [org.flatland/ordered "1.5.7"]
     ;; Jarfile Conflict Fixes
     [com.google.guava/guava "25.1-jre"]
@@ -52,20 +52,20 @@
     [org.yaml/snakeyaml "1.23"]
     [potemkin "0.4.5"]
     ;; Actual Dependencies
-    [cheshire "5.8.0"]
+    [cheshire "5.8.1"]
     [clojurewerkz/ogre "3.3.4.0"]
     [clojusc/system-manager "0.3.0"]
     [clojusc/twig "0.4.1"]
     [clojusc/unified-config "0.5.0-SNAPSHOT"]
     [com.stuartsierra/component "0.4.0"]
     [http-kit "2.3.0"]
-    [metosin/reitit-core "0.1.3"]
-    [metosin/reitit-ring "0.1.3"]
-    [metosin/ring-http-response "0.9.0"]
+    [metosin/reitit-core "0.2.13"]
+    [metosin/reitit-ring "0.2.13"]
+    [metosin/ring-http-response "0.9.1"]
     [org.apache.tinkerpop/gremlin-server "3.4.0"]
     [org.clojure/clojure "1.10.0"]
     [org.janusgraph/janusgraph-cassandra "0.3.1"]
-    [ring/ring-core "1.6.3"]
+    [ring/ring-core "1.7.1"]
     [ring/ring-codec "1.1.1"]
     [ring/ring-defaults "0.3.2"]]
   :profiles {
