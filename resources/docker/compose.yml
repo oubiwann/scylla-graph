@@ -17,12 +17,17 @@ services:
         # hostname assumes virtual network interface:
         # $ sudo ifconfig en0 inet 172.27.27.2 netmask 255.255.255.224 alias
         ipv4_address: 172.27.27.2
-  clj-janus:
-    image: oubiwann/scylla-graph
-    depends_on:
-      - scylladb
-    ports:
-      - 8821:8821
+  # clj-janus:
+  #   image: oubiwann/scylla-graph
+  #   depends_on:
+  #     - scylladb
+  #   ports:
+  #     - 8821:8821
+  #   networks:
+  #     mm-scylla-net:
+  #       # hostname assumes virtual network interface:
+  #       # $ sudo ifconfig en0 inet 172.27.27.2 netmask 255.255.255.224 alias
+  #       ipv4_address: 172.27.27.2
 
 volumes:
   data:
