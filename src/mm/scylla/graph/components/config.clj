@@ -1,7 +1,8 @@
 (ns mm.scylla.graph.components.config
   (:require
-    [mm.scylla.graph.config :as config-lib]
+    [clojure.java.io :as io]
     [com.stuartsierra.component :as component]
+    [mm.scylla.graph.config :as config-lib]
     [taoensso.timbre :as log]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -59,6 +60,16 @@
 (defn httpd-index-dirs
   [system]
   (get-in (get-cfg system) [:httpd :index-dirs]))
+
+(defn gremlin-config-file
+  [system]
+  (get-in (get-cfg system) [:gremlin :config-file]))
+
+(defn gremlin-config
+  [system]
+  (io/input-stream
+    (io/resource
+      (gremlin-config-file system))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;   Component Lifecycle Implementation   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

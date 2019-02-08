@@ -2,6 +2,7 @@
   (:require
     [com.stuartsierra.component :as component]
     [mm.scylla.graph.components.config :as config]
+    [mm.scylla.graph.components.gremlin :as gremlin]
     [mm.scylla.graph.components.httpd :as httpd]
     [mm.scylla.graph.components.janus :as janus]
     [mm.scylla.graph.components.logging :as logging]
@@ -25,10 +26,15 @@
            (janus/create-component)
            [:config :logging])})
 
+(def grmln
+  {:gremlin (component/using
+             (gremlin/create-component)
+             [:config :logging :janus])})
+
 (def http-server
   {:httpd (component/using
            (httpd/create-component)
-           [:config :logging :janus])})
+           [:config :logging :janus :gremlin])})
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;   Component Initializations   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -47,7 +53,8 @@
     (component/map->SystemMap
       (merge (cfg cfg-data)
              log
-             janus))))
+             janus
+             grmln))))
 
 (defn initialize-with-web
   []
@@ -56,6 +63,7 @@
       (merge (cfg cfg-data)
              log
              janus
+             grmln
              http-server))))
 
 (def init-lookup
