@@ -8,6 +8,7 @@ RUN cd / && \
     lein ltest
 WORKDIR /scylla-graph
 
-#CMD ["lein", "trampoline", "run"]
-CMD ["lein", "trampoline", "repl", \
-     ":headless", ":host", "0.0.0.0", ":port", "8821"]
+# CMD ["lein", "trampoline", "run"]
+# CMD ["lein", "trampoline", "repl", \
+#      ":headless", ":host", "0.0.0.0", ":port", "8821"]
+
