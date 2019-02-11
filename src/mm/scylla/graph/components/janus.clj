@@ -1,7 +1,7 @@
 (ns mm.scylla.graph.components.janus
   (:require
-    [mm.scylla.graph.api.db :as db]
-    [mm.scylla.graph.api.factory :as factory]
+    [mm.scylla.graph.api.db :as db-lib]
+    [mm.scylla.graph.api.factory :as factory-lib]
     [mm.scylla.graph.components.config :as config]
     [com.stuartsierra.component :as component]
     [taoensso.timbre :as log])
@@ -13,25 +13,39 @@
 ;;;   JanusGraph Component API   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn get-conn
+(defn db
   [system]
   (get-in system [:janus :conn]))
 
-(defn get-factory
+(defn factory
   [system]
   (get-in system [:janus :factory]))
 
+(defn reslv
+  [^Symbol lib ^Keyword func]
+  (ns-resolve lib (symbol (name func))))
+
 (defn db-call
-  [system ^Symbol func args]
-  (apply
-    (resolve 'db/func)
-    (concat [(get-conn system)] args)))
+  ([system ^Keyword func]
+    (db-call system func []))
+  ([system ^Keyword func args]
+    (apply
+      (reslv 'mm.scylla.graph.api.db func)
+      (concat [(db system)] args))))
 
 (defn factory-call
-  [system ^Symbol func args]
-  (apply
-    (resolve 'factory/func)
-    (concat [(get-factory system)] args)))
+  ([system ^Keyword func]
+    (factory-call system func []))
+  ([system ^Keyword func args]
+    (apply
+      (reslv 'mm.scylla.graph.api.factory func)
+      (concat [(factory system)] args))))
+
+(defn call
+  [system call-type & args]
+  (case call-type
+    :db (apply db-call (concat [system] args))
+    :factory (apply factory-call (concat [system] args))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;   Component Lifecycle Implementation   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -42,15 +56,15 @@
 (defn start
   [this]
   (log/info "Starting JanusGraph component ...")
-  (let [f (factory/create)
-        conn (factory/connect f (config/storage-spec this))]
+  (let [f (factory-lib/create)
+        conn (factory-lib/connect f (config/storage-spec this))]
     (log/debug "Started JanusGraph component.")
     (assoc this :conn conn :factory f)))
 
 (defn stop
   [this]
   (log/info "Stopping JanusGraph component ...")
-  (db/disconnect (:conn this))
+  (db-lib/disconnect (:conn this))
   (log/debug "Stopped JanusGraph component.")
   (assoc this :conn nil :factory nil))
 
