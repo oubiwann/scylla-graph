@@ -13,6 +13,7 @@
 #### Contents
 
 * [About](#about-)
+* [Sample Data](#sample-data-)
 * [Setup](#setup-)
    * [Using docker](#using-docker-)
    * [Using docker-compose](#using-docker-compose-)
@@ -24,6 +25,14 @@
 ## About [&#x219F;](#contents)
 
 TBD
+
+## Sample Data [&#x219F;](#contents)
+
+If you'd like to try this out with sample data, you may do the following:
+
+```
+$ lein download-sample-data
+```
 
 
 ## Setup [&#x219F;](#contents)

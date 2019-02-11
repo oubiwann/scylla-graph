@@ -157,4 +157,6 @@
     "docker-build"
       ["shell" "docker" "build"
        "-t" "oubiwann/scylla-graph"
-       "./resources/docker/"]})
+       "./resources/docker/"]
+    "download-sample-data"
+      ["shell" "./resources/scripts/download-sample-data.sh"]})
