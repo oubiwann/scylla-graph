@@ -21,6 +21,10 @@
   [system]
   (get-in system [:janus :factory]))
 
+(defn graph-factory
+  [system]
+  (get-in system [:janus :graph-factory]))
+
 (defn reslv
   [^Symbol lib ^Keyword func]
   (ns-resolve lib (symbol (name func))))
@@ -57,9 +61,11 @@
   [this]
   (log/info "Starting JanusGraph component ...")
   (let [f (factory-lib/create)
-        conn (factory-lib/connect f (config/storage-spec this))]
+        graph-factory #(factory-lib/connect f (config/storage-spec this))]
     (log/debug "Started JanusGraph component.")
-    (assoc this :conn conn :factory f)))
+    (assoc this :conn (graph-factory)
+                :factory f
+                :graph-factory graph-factory)))
 
 (defn stop
   [this]
