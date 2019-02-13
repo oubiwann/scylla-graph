@@ -6,6 +6,7 @@ services:
     container_name: mm-scylla-graph
     volumes:
       - ${PWD}/scylla:/var/lib/scylla
+      - ${PWD}/scylla/etc:/etc/scylla
     ports:
       - 7000:7000
       - 7001:7001
