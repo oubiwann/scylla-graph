@@ -13,4 +13,4 @@ pom.xml.asc
 .nrepl-port
 .cpcache/
 /scylla
-/sample-data
+/data

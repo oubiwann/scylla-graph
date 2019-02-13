@@ -42,10 +42,10 @@
     ;; Jarfile Conflict Fixes
     [com.google.guava/guava "25.1-jre"]
     [com.googlecode.json-simple/json-simple "1.1.1"]
-    [commons-codec/commons-codec "1.11"]
+    [commons-codec/commons-codec "1.12"]
     [commons-lang/commons-lang "2.6"]
-    [org.apache.tinkerpop/gremlin-core  "3.4.0"]
-    [org.apache.tinkerpop/gremlin-shaded "3.4.0"]
+    [org.apache.tinkerpop/gremlin-core  "3.3.3"]
+    [org.apache.tinkerpop/gremlin-shaded "3.3.3"]
     [org.clojure/tools.reader "1.3.2"]
     [org.slf4j/slf4j-api "1.7.25"]
     [org.xerial.snappy/snappy-java "1.1.7.2"]
@@ -62,9 +62,10 @@
     [metosin/reitit-core "0.2.13"]
     [metosin/reitit-ring "0.2.13"]
     [metosin/ring-http-response "0.9.1"]
-    [org.apache.tinkerpop/gremlin-server "3.4.0"]
+    [org.apache.tinkerpop/gremlin-server "3.3.3"]
     [org.clojure/clojure "1.10.0"]
     [org.janusgraph/janusgraph-cassandra "0.3.1"]
+    [org.janusgraph/janusgraph-cql "0.3.1"]
     [ring/ring-core "1.7.1"]
     [ring/ring-codec "1.1.1"]
     [ring/ring-defaults "0.3.2"]]
@@ -107,7 +108,7 @@
       :dependencies [
         [codox-theme-rdash "0.1.2"]]
       :plugins [
-        [lein-codox "0.10.5"]
+        [lein-codox "0.10.6"]
         [lein-marginalia "0.9.1"]]
       :codox {
         ; :project {
@@ -119,7 +120,9 @@
         :doc-paths ["resources/docs"]
         :metadata {
           :doc/format :markdown
-          :doc "Documentation forthcoming"}}}}
+          :doc "Documentation forthcoming"}}}
+    :import {
+      :main mm.scylla.graph.sample.import}}
   :aliases {
     "ubercompile" ["with-profile" "+ubercompile" "compile"]
     "check-vers" ["with-profile" "+test" "ancient" "check" ":all"]
@@ -149,7 +152,7 @@
     "build"
       ^{:doc "Perform build tasks for CI/CD & releases\n\nAdditional aliases:"}
       ["with-profile" "+test" "do"
-        ["check-vers"]
+        ; ["check-vers"]
         ["ubercompile"]
         ["lint"]
         ["test"]
@@ -159,4 +162,6 @@
        "-t" "oubiwann/scylla-graph"
        "./resources/docker/"]
     "download-sample-data"
-      ["shell" "./resources/scripts/download-sample-data.sh"]})
+      ["shell" "./resources/scripts/download-sample-data.sh"]
+    "import-sample-data"
+      ["with-profile" "+import" "trampoline" "run"]})
