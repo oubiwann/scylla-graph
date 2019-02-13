@@ -25,14 +25,22 @@
   (let [cfg (config/gremlin-config this)
         settings (Settings/read cfg)
         server (new GremlinServer settings)]
-    (.start server)
+    (try
+      (.start server)
+      (catch Exception ex
+        (log/error "Couldn't start gremlin:")
+        (log/error ex)))
     (log/debug "Started Gremlin server component.")
     (assoc this :server server)))
 
 (defn stop
   [this]
   (log/info "Stopping Gremlin server component ...")
-  (.stop (:server this))
+  (try
+    (.stop (:server this))
+    (catch Exception ex
+      (log/error "Couldn't stop gremlin server:")
+      (log/error ex)))
   (log/debug "Stopped Gremlin server component.")
   (assoc this :server nil))
 
