@@ -14,6 +14,8 @@
 
 * [About](#about-)
 * [Sample Data](#sample-data-)
+   * [Download](#download-)
+   * [Ingest](#ingest-)
 * [Setup](#setup-)
    * [Using docker](#using-docker-)
    * [Using docker-compose](#using-docker-compose-)
@@ -28,11 +30,18 @@ TBD
 
 ## Sample Data [&#x219F;](#contents)
 
+### Download [&#x219F;](#contents)
+
 If you'd like to try this out with sample data, you may do the following:
 
 ```
 $ lein download-sample-data
 ```
+
+
+### Ingest [&#x219F;](#contents)
+
+TBD
 
 
 ## Setup [&#x219F;](#contents)
@@ -88,6 +97,15 @@ for you (though you will need to have created the virtual NIC as above):
 $ docker-compose -f resources/docker/compose.yml up
 ```
 
+For both the `docker` and `docker-compose`, you can interact with the
+running systems with the following:
+
+* system shell: `docker exec -it ce332e5ce806 bash`
+* cql shell: `docker exec -it ce332e5ce806 cqlsh -C --keyspace=janusgraph`
+* nodetool:
+  * status: `docker exec -it ce332e5ce806 nodetool status`
+  * tablestats: `docker exec -it ce332e5ce806 nodetool tablestats`
+
 
 ## Using Kubernetes [&#x219F;](#contents)
 
@@ -130,6 +148,126 @@ _|  _|\___|\__,_|_|\__,_|_|  _|\__,_|\__|_| |_| ____/
 2019-02-08T16:29:32.369 [nREPL-worker-4] INFO mm.scylla.graph.components.httpd:17 - Starting httpd component ...
 :running
 ```
+
+## Using Janusgraph on ScyllaDB
+
+The following example uses the Clojure Gremlin library ogre to
+demonstrate a running/working Janusgraph ScyllaDB cluster:
+
+From the [TinkerPop docs](http://tinkerpop.apache.org/docs/current/tutorials/getting-started/), create a graph
+
+```clj
+  (def graph (janus/db (system)))
+  (def g (ogre/traversal graph))
+```
+
+Then create some vertices:
+
+```clj
+  (def v1 (-> (ogre/addV g "person")
+              (ogre/property "name" "marko")
+              (ogre/property "age" 29)
+              (ogre/next!)))
+
+  (-> graph (.tx) (.commit))
+
+  (def v2 (-> (ogre/addV g "software")
+              (ogre/property "name" "lop")
+              (ogre/property "lang" "clj")
+              (ogre/next!)))
+
+  (-> graph (.tx) (.commit))
+```
+
+Now an edge, connecting the two:
+
+```clj
+  (def e (-> (ogre/addE g "created")
+             (ogre/from v1)
+             (ogre/to v2)
+             (ogre/property "weight" 0.4)
+             (ogre/next!)))
+
+  (-> graph (.tx) (.commit))
+```
+
+Now log into a node your Scylla cluster and execute some CQL to verify
+data has been saved to the Janusgraph backend:
+
+```sql
+cqlsh:janusgraph> SELECT * FROM graphindex;
+cqlsh:janusgraph> SELECT * FROM edgestore;
+```
+
+If you run those queries before any transactions, you will see no
+results; afterwards, there will be several rows of obscure data.
+
+Back in the REPL, let's query the vertices we created (from the
+[ogre docs](http://ogre.clojurewerkz.org/articles/getting_started.html#the_traversal)):
+
+```clj
+  (ogre/traverse
+    g
+    ogre/V
+    (ogre/into-seq!))
+```
+```
+(...[... "v[4112]"])
+```
+Edges can't be accessed outside their original transaction, so after
+the edge is committed, it needs to be refreshed
+(see [https://docs.janusgraph.org/latest/tx.html](https://docs.janusgraph.org/latest/tx.html)) -- let's redefine it:
+
+```clj
+  (def e (ogre/traverse
+          g
+          (ogre/E e)))
+  e
+```
+```
+#object[... "[GraphStep(edge,[[GraphStep(edge,[e[...][4184-created->4112]])]])]"]
+```
+
+Let's examine the vertex name values (from the
+[ogre docs](http://ogre.clojurewerkz.org/articles/getting_started.html#the_traversal)):
+
+```clj
+  (ogre/traverse
+    g
+    ogre/V
+    (ogre/values :name)
+    (ogre/into-seq!))
+```
+```clj
+("marko" "lop")
+```
+
+We can be a bit more specific, too (from the
+[TinkerPop docs](http://tinkerpop.apache.org/docs/current/tutorials/getting-started/)):
+
+```clj
+  (ogre/traverse
+    g
+    ogre/V
+    (ogre/has :name "marko")
+    (ogre/into-seq!))
+```
+```
+(...[... "v[4184]"])
+```
+```clj
+  (ogre/traverse
+    g
+    ogre/V
+    (ogre/has :name "marko")
+    (ogre/out :created)
+    (ogre/values :name)
+    (ogre/into-seq!))
+```
+```clj
+("lop")
+```
+
 
 ## License [&#x219F;](#contents)
 
