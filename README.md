@@ -22,6 +22,7 @@
    * [Using Kubernetes](#using-kubernetes-)
    * [Using Terraform](#using-terraform-)
 * [Connecting](#connecting-)
+* [Using Janusgraph on ScyllaDB](#using-janusgraph-on-scylladb-)
 * [License](#license-)
 
 ## About [&#x219F;](#contents)
@@ -149,7 +150,8 @@ _|  _|\___|\__,_|_|\__,_|_|  _|\__,_|\__|_| |_| ____/
 :running
 ```
 
-## Using Janusgraph on ScyllaDB
+
+## Using Janusgraph on ScyllaDB [&#x219F;](#contents)
 
 The following example uses the Clojure Gremlin library ogre to
 demonstrate a running/working Janusgraph ScyllaDB cluster:
@@ -157,6 +159,9 @@ demonstrate a running/working Janusgraph ScyllaDB cluster:
 From the [TinkerPop docs](http://tinkerpop.apache.org/docs/current/tutorials/getting-started/), create a graph
 
 ```clj
+  (require '[clojurewerkz.ogre.core :as ogre]
+           '[mm.scylla.graph.api.db :as db]
+           '[mm.scylla.graph.components.janus :as janus])
   (def graph (janus/db (system)))
   (def g (ogre/traversal graph))
 ```
@@ -169,14 +174,14 @@ Then create some vertices:
               (ogre/property "age" 29)
               (ogre/next!)))
 
-  (-> graph (.tx) (.commit))
+  (db/commit graph)
 
   (def v2 (-> (ogre/addV g "software")
               (ogre/property "name" "lop")
               (ogre/property "lang" "clj")
               (ogre/next!)))
 
-  (-> graph (.tx) (.commit))
+  (db/commit graph)
 ```
 
 Now an edge, connecting the two:
@@ -188,7 +193,7 @@ Now an edge, connecting the two:
              (ogre/property "weight" 0.4)
              (ogre/next!)))
 
-  (-> graph (.tx) (.commit))
+  (db/commit graph)
 ```
 
 Now log into a node your Scylla cluster and execute some CQL to verify
