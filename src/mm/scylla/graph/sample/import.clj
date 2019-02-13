@@ -49,7 +49,7 @@
   (let [[raw-id gender raw-age occupation-id _] (parse-line line)
         id (int raw-id)
         age (int raw-age)
-        occupation (get occupations occupation)
+        occupation (get occupations occupation-id)
         props (->> [id gender age occupation]
                    (interleave ["id" "gender" "age"])
                    (partition 2))
@@ -73,7 +73,9 @@
              {:init 'mm.scylla.graph.components.core/cli})
         sys (system-manager/startup)
         g (ogre/traversal (janus/db sys))]
-    ;; XXX
-    (read-dat import-users (partial parse-user-line g))
+    ;; XXX users
+    (read-dat import-users (partial ingest-user-line g))
     (db/commit (janus/db sys))
+    ;; XXX movies
+    ;; XXX ratings
     (system-manager/shutdown)))
