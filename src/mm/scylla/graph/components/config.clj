@@ -26,6 +26,14 @@
   (mapv symbol
         (get-in (get-cfg system) [:logging :nss])))
 
+(defn graph-graphname
+  [system]
+  (get-in (get-cfg system) [:janus :graph :graphname]))
+
+(defn gremlin-graph
+  [system]
+  (get-in (get-cfg system) [:janus :gremlin :graph]))
+
 (defn storage-backend
   [system]
   (get-in (get-cfg system) [:janus :storage :backend]))
@@ -44,7 +52,9 @@
 
 (defn storage-spec
   [system]
-  {:storage-backend (storage-backend system)
+  {:graph-graphname (graph-graphname system)
+   :gremlin-graph (gremlin-graph system)
+   :storage-backend (storage-backend system)
    :storage-hostname (storage-hostname system)
    :storage-port (storage-port system)
    :storage-directory (storage-directory system)})

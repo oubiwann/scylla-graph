@@ -64,8 +64,12 @@
     (let [builder (JanusGraphFactory/build)]
       (log/trace "Builder:" builder)
       (log/debug "Configuring builder with:" opts)
-      ;(.set builder "gremlin.graph" "org.janusgraph.core.JanusGraphFactory")
-      ;(.set builder "graph.graphname" "game")
+      (when-let [gremg (:gremlin.graph opts)]
+        (log/warn "Setting gremlin.graph ...")
+        (.set builder "gremlin.graph" gremg))
+      (when-let [gname (:graph-graphname opts)]
+        (log/warn "Setting graph.graphname ...")
+        (.set builder "graph.graphname" gname))
       (.set builder "storage.backend" (:storage-backend opts))
       (.set builder "storage.hostname" (:storage-hostname opts))
       (.set builder "storage.port" (:storage-port opts))

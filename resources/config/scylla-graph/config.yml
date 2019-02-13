@@ -6,16 +6,27 @@ httpd:
   index-dirs:
     - assets
 janus:
+  graph:
+    # for cassandrathrift
+    # graphname: ConfigurationManagementGraph
+    # for cql
+    # graphname:
+  gremlin:
+    # for cassandrathrift
+    # graph: org.janusgraph.core.ConfiguredGraphFactory
+    # for cql
+    # graph: org.janusgraph.core.JanusGraphFactory
   storage:
-    backend: cassandra
+    # backend: cassandra
+    backend: cql
     # hostname assumes virtual network interface:
     # $ sudo ifconfig en0 inet 172.27.27.2 netmask 255.255.255.224 alias
     # and docket network:
     hostname: 172.27.27.2
     # hostname: 0.0.0.0
     # hostname: 127.0.0.1
-    port: 9160
-    directory: data/graphdb/janus
+    port: 9042
+    directory: data/janus
 logging:
   level: :debug
   nss:
